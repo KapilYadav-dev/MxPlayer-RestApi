@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = process.env.port || 8080;
+const port = process.env.port;
 const fetch = require("node-fetch");
 var rawData = [];
 require("dotenv").config();

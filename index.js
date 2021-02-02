@@ -30,7 +30,10 @@ async function DoWork(req, res) {
         await SendSeriesData(contentData, streamdata, res);
       else await SendMovieData(contentData, streamdata, res);
     } catch (e) {
-      res.json({ status: "Error", code: "Wrong url or type. Please check this again..." });
+      res.json({
+        status: "Error",
+        code: "Wrong url or type. Please check this again...",
+      });
     }
   }
 }
@@ -52,6 +55,11 @@ async function getPathName(url) {
 
 async function SendSeriesData(contentData, streamdata, res) {
   var actors = await ProcessActors(streamdata.contributors);
+  var img = await ProcessImages(streamdata.imageInfo);
+  var mediaUrl =
+  streamdata.stream.hls.high ||
+  streamdata.stream.hls.base ||
+  streamdata.stream.hls.min;
   var response = {
     id: contentData.data.id,
     type: "series",
@@ -60,12 +68,12 @@ async function SendSeriesData(contentData, streamdata, res) {
     releaseDate: streamdata.releaseDate,
     season_no: contentData.data.dependencies.season.season_no,
     episode_no: contentData.data.source.episode_no,
-    duration: contentData.data.source.duration + " seconds",
+    duration: contentData.data.source.duration,
     actors: actors,
-    images: streamdata.imageInfo,
-    m3u8_url: "https://llvod.mxplay.com/" + streamdata.stream.hls.high,
+    images: img,
+    streamingUrl: "https://llvod.mxplay.com/" + mediaUrl,
   };
-  if (response.m3u8_url != null) res.send(response);
+  if (mediaUrl != null) res.send(response);
   else
     res.json({
       status: "error",
@@ -75,6 +83,10 @@ async function SendSeriesData(contentData, streamdata, res) {
 async function SendMovieData(contentData, streamdata, res) {
   var actors = await ProcessActors(streamdata.contributors);
   var img = await ProcessImages(streamdata.imageInfo);
+  var mediaUrl =
+    streamdata.stream.hls.high ||
+    streamdata.stream.hls.base ||
+    streamdata.stream.hls.min;
   var response = {
     id: contentData.data.id,
     type: "movies",
@@ -84,9 +96,9 @@ async function SendMovieData(contentData, streamdata, res) {
     duration: contentData.data.source.duration + " seconds",
     actors: actors,
     images: img,
-    m3u8_url: "https://llvod.mxplay.com/" + streamdata.stream.hls.high,
+    streamingUrl: "https://llvod.mxplay.com/" + mediaUrl,
   };
-  if (response.m3u8_url != null) res.send(response);
+  if (mediaUrl != null) res.send(response);
   else
     res.json({
       status: "error",

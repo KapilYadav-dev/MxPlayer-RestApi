@@ -1,10 +1,10 @@
 {
-  "name": "MxPlayer-RestApi",
+  "name": "mx-api-mrkaydev",
   "version": "1.0.0",
   "description": "Unofficial mx-player rest API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",

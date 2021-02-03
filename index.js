@@ -33,6 +33,7 @@ async function DoWork(req, res) {
       res.json({
         status: "Error",
         code: "Wrong url or type. Please check this again...",
+        error:e
       });
     }
   }

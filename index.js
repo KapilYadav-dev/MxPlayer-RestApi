@@ -30,6 +30,7 @@ async function DoWork(req, res) {
         await SendSeriesData(contentData, streamdata, res);
       else await SendMovieData(contentData, streamdata, res);
     } catch (e) {
+      console.log(e)
       res.json({
         status: "Error",
         code: "Wrong url or type. Please check this again...",

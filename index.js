@@ -2,12 +2,15 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8080;
 const fetch = require("node-fetch");
+var path = require('path')
 var rawData = [];
 
 app.listen(port, () => {
   console.log(`App is running on port ${port}`);
 });
-
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname + '/index.html'));
+});
 app.get("/detail", function (req, res) {
   DoWork(req, res);
 });

@@ -3,7 +3,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 const fetch = require("node-fetch");
 var rawData = [];
-require("dotenv").config();
+
 app.listen(port, () => {
   console.log(`App is running on port ${port}`);
 });
@@ -21,10 +21,10 @@ async function DoWork(req, res) {
     try {
       var firstUrl = await getPathName(url);
       var contentData = await getIdandDetail(
-        process.env.FIRST_URL + "?url=" + firstUrl
+        'https://seo.mxplay.com/v1/api/seo/get-url-details' + "?url=" + firstUrl
       );
       var streamdata = await getAllData(
-        process.env.SECOND_URL + `?type=${type}&id=${contentData.data.id}`
+        'https://api.mxplay.com/v1/web/detail/video' + `?type=${type}&id=${contentData.data.id}`
       );
       if (type.includes("episode"))
         await SendSeriesData(contentData, streamdata, res);
